@@ -1,0 +1,134 @@
+<html><head>
+	<title>pixi.js example 8 Dragging</title>
+
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #FFFFFF;
+			
+		}
+		
+		.textHolder{
+			width: 400px;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+	<script src="pixi.js"></script>
+	<script src="classes.js"></script>
+
+	<body>
+	<script>
+		
+	//create our player
+	var player = new Player("monk");
+	
+	var numTiles = 40;
+	
+	//Create Our grid 40 x 40
+	var map = new Map(numTiles,numTiles);
+
+	//Put the player on grid space 0,1
+	map.placePlayer(20, 20, player);
+
+	console.log(map.tiles);
+
+	// create an new instance of a pixi stage
+	var stage = new PIXI.Stage(0x97c56e, true);
+	// create a renderer instance
+	var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, null);
+	
+	var tileHeight = window.innerHeight / numTiles;
+	var tileWidth = window.innerWidth / numTiles;
+
+	// add the renderer view element to the DOM
+	document.body.appendChild(renderer.view);
+	renderer.view.style.position = "absolute";
+	renderer.view.style.top = "0px";
+	renderer.view.style.left = "0px";
+	
+	// create a texture from an image path
+	var texture = PIXI.Texture.fromImage("bunny.png");
+	
+	DrawMap(map);
+
+	requestAnimFrame( animate );
+	
+	function DrawPlayer(x,y,player){
+		// create our player
+		player.sprite = new PIXI.Sprite(texture);
+
+		// center the players anchor point
+		player.sprite.anchor.x = 0.5;
+		player.sprite.anchor.y = 0.5;
+
+		player.sprite.scale.x = player.sprite.scale.y = 3;
+
+		// move the sprite to its designated position
+		player.sprite.position.x = x * tileWidth;
+		player.sprite.position.y = y * tileHeight;
+		
+		// add it to the stage
+		stage.addChild(player.sprite);
+	}
+	
+	function redrawPlayer(x,y,player){
+		player.sprite.position.x = x * tileWidth;
+		player.sprite.position.y = y * tileHeight;
+	}
+
+	function DrawMap(grid){
+		for(var i = 0; i < map.tiles.length; i++){
+			for(var y = 0; y < map.tiles[i].length; y++){
+				if(map.tiles[i][y].type == 1){
+					DrawPlayer(i,y,player);
+				}
+				else if(map.tiles[i][y].type == 2) {
+				}
+			}
+		}
+	}
+	
+	function DrawFrame(grid){
+		for(var i = 0; i < map.tiles.length; i++){
+			for(var y = 0; y < map.tiles[i].length; y++){
+				if(map.tiles[i][y].type == 1){
+					redrawPlayer(i,y,player);
+				}
+				else if(map.tiles[i][y].type == 2) {
+				}
+			}
+		}
+	}
+	
+	function animate() {
+		DrawFrame(map);
+		// render the stage   
+	    renderer.render(stage);
+		
+	    requestAnimFrame( animate );
+	}
+
+	$(document).keydown(function(e){
+				switch(e.keyCode){
+				case 39:
+					console.log(map);
+					console.log(player);
+					map.placePlayer(player.x + 1, player.y, player);
+					break;
+				case 37:
+					console.log(map);
+					console.log(player);
+					map.placePlayer(player.x - 1, player.y, player);
+					break;
+				case 32:
+					break;
+				case 90:
+					break;
+				}
+		});
+	
+	</script>
+
+	
+</body></html>
