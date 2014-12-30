@@ -29,9 +29,10 @@ function Map(numOfTilesX, numOfTilesY, tileWidth, tileHeight){
 	}
 	
 	this.placePlayer = function(x, y, player) {
-		var currentTileX = player.x / this.tileWidth;
-		var currentTileY = player.y / this.tileHeight;
-		
+		var currentTileX = Math.round(player.x / this.tileWidth);
+		var currentTileY = Math.round(player.y / this.tileHeight);
+		console.log(currentTileX);
+		console.log(currentTileY);
 		this.tiles[currentTileX][currentTileY].full = 0;
 		this.tiles[currentTileX][currentTileY].type = 0;
 		this.tiles[currentTileX][currentTileY].contents = null;
@@ -39,9 +40,10 @@ function Map(numOfTilesX, numOfTilesY, tileWidth, tileHeight){
 		player.x = x;
 		player.y = y;
 		
-		var newTileX = x / this.tileWidth;
-		var newTileY = y / this.tileHeight;
-	
+		var newTileX = Math.round(x / this.tileWidth);
+		var newTileY = Math.round(y / this.tileHeight);
+		console.log(newTileX);
+		console.log(newTileY);
 		this.tiles[newTileX][newTileY].full = 1;
 		this.tiles[newTileX][newTileY].type = 1;
 		this.tiles[newTileX][newTileY].contents = player;

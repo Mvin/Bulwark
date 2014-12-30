@@ -27,9 +27,12 @@
 	
 	var tileHeight = window.innerHeight / numTiles;
 	var tileWidth = window.innerWidth / numTiles;
-	
+	console.log(tileHeight);
+	console.log(tileWidth);
+	console.log(20 * tileWidth);
+	console.log(20 * tileHeight);
 	//Create Our grid 40 x 40
-	var map = new Map(numTiles, numTiles, tileHeight, tileWidth);
+	var map = new Map(numTiles, numTiles, tileWidth, tileHeight);
 
 	//Put the player on grid space 0,1
 	map.placePlayer(20 * tileWidth, 20 * tileHeight, player);
