@@ -25,11 +25,14 @@
 	
 	var numTiles = 40;
 	
+	var tileHeight = window.innerHeight / numTiles;
+	var tileWidth = window.innerWidth / numTiles;
+	
 	//Create Our grid 40 x 40
-	var map = new Map(numTiles,numTiles);
+	var map = new Map(numTiles, numTiles, tileHeight, tileWidth);
 
 	//Put the player on grid space 0,1
-	map.placePlayer(20, 20, player);
+	map.placePlayer(20 * tileWidth, 20 * tileHeight, player);
 
 	console.log(map.tiles);
 
@@ -37,9 +40,6 @@
 	var stage = new PIXI.Stage(0x97c56e, true);
 	// create a renderer instance
 	var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight, null);
-	
-	var tileHeight = window.innerHeight / numTiles;
-	var tileWidth = window.innerWidth / numTiles;
 
 	// add the renderer view element to the DOM
 	document.body.appendChild(renderer.view);
@@ -65,16 +65,16 @@
 		player.sprite.scale.x = player.sprite.scale.y = 3;
 
 		// move the sprite to its designated position
-		player.sprite.position.x = x * tileWidth;
-		player.sprite.position.y = y * tileHeight;
+		player.sprite.position.x = player.x;
+		player.sprite.position.y = player.y;
 		
 		// add it to the stage
 		stage.addChild(player.sprite);
 	}
 	
 	function redrawPlayer(x,y,player){
-		player.sprite.position.x = x * tileWidth;
-		player.sprite.position.y = y * tileHeight;
+		player.sprite.position.x = player.x;
+		player.sprite.position.y = player.y;
 	}
 
 	function DrawMap(grid){
@@ -114,22 +114,22 @@
 				case 40:
 					console.log(map);
 					console.log(player);
-					map.placePlayer(player.x, player.y + 1, player);
+					map.placePlayer(player.x, player.y + 100, player);
 					break;
 				case 39:
 					console.log(map);
 					console.log(player);
-					map.placePlayer(player.x + 1, player.y, player);
+					map.placePlayer(player.x + 5, player.y, player);
 					break;
 				case 38:
 					console.log(map);
 					console.log(player);
-					map.placePlayer(player.x, player.y - 1, player);
+					map.placePlayer(player.x, player.y - 100, player);
 					break;
 				case 37:
 					console.log(map);
 					console.log(player);
-					map.placePlayer(player.x - 1, player.y, player);
+					map.placePlayer(player.x - 5, player.y, player);
 					break;
 				case 32:
 					break;

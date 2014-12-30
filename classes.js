@@ -11,9 +11,11 @@ function Tile(){
 	this.contents = null;
 }
 
-function Map(numOfTilesX, numOfTilesY){
+function Map(numOfTilesX, numOfTilesY, tileWidth, tileHeight){
 	this.numOfTilesX = numOfTilesX;
 	this.numOfTilesY = numOfTilesY;
+	this.tileWidth = tileWidth;
+	this.tileHeight = tileHeight;
 	this.tiles = [];
 	
 	this.makeTiles = function(){
@@ -27,15 +29,22 @@ function Map(numOfTilesX, numOfTilesY){
 	}
 	
 	this.placePlayer = function(x, y, player) {
-		this.tiles[player.x][player.y].full = 0;
-		this.tiles[player.x][player.y].type = 0;
-		this.tiles[player.x][player.y].contents = null;
+		var currentTileX = player.x / this.tileWidth;
+		var currentTileY = player.y / this.tileHeight;
+		
+		this.tiles[currentTileX][currentTileY].full = 0;
+		this.tiles[currentTileX][currentTileY].type = 0;
+		this.tiles[currentTileX][currentTileY].contents = null;
 	
-		this.tiles[x][y].full = 1;
-		this.tiles[x][y].type = 1;
-		this.tiles[x][y].contents = player;
 		player.x = x;
 		player.y = y;
+		
+		var newTileX = x / this.tileWidth;
+		var newTileY = y / this.tileHeight;
+	
+		this.tiles[newTileX][newTileY].full = 1;
+		this.tiles[newTileX][newTileY].type = 1;
+		this.tiles[newTileX][newTileY].contents = player;
 	}
 	
 	this.makeTiles();
