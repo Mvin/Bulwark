@@ -27,10 +27,7 @@
 	
 	var tileHeight = window.innerHeight / numTiles;
 	var tileWidth = window.innerWidth / numTiles;
-	console.log(tileHeight);
-	console.log(tileWidth);
-	console.log(20 * tileWidth);
-	console.log(20 * tileHeight);
+
 	//Create Our grid 40 x 40
 	var map = new Map(numTiles, numTiles, tileWidth, tileHeight);
 
@@ -52,6 +49,7 @@
 	
 	// create a texture from an image path
 	var texture = PIXI.Texture.fromImage("bunny.png");
+	var gridSpaceTexture = PIXI.Texture.fromImage("levelsquare.png");
 	
 	DrawMap(map);
 
@@ -75,11 +73,34 @@
 		stage.addChild(player.sprite);
 	}
 	
+	function DrawGridSpace(x,y){
+		// create our player
+		map.tiles[i][y].contents = new PIXI.Sprite(gridSpaceTexture);
+
+		// center the grid space anchor point
+		map.tiles[i][y].contents.anchor.x = 0.5;
+		map.tiles[i][y].contents.anchor.y = 0.5;
+
+		map.tiles[i][y].contents.scale.x = map.tiles[i][y].contents.scale.y = .5;
+
+		// move the sprite to its designated position
+		map.tiles[i][y].contents.position.x = x * tileWidth;
+		map.tiles[i][y].contents.position.y = y * tileHeight;
+		
+		// add it to the stage
+		stage.addChild(map.tiles[i][y].contents);
+	}
+	
 	function redrawPlayer(x,y,player){
 		player.sprite.position.x = player.x;
 		player.sprite.position.y = player.y;
 	}
 
+	function redrawGridSpace(x,y){
+		map.tiles[i][y].contents.position.x = x * tileWidth;
+		map.tiles[i][y].contents.position.y = y * tileHeight;
+	}
+	
 	function DrawMap(grid){
 		for(var i = 0; i < map.tiles.length; i++){
 			for(var y = 0; y < map.tiles[i].length; y++){
@@ -87,6 +108,7 @@
 					DrawPlayer(i,y,player);
 				}
 				else if(map.tiles[i][y].type == 2) {
+					DrawGridSpace(i,y);
 				}
 			}
 		}
@@ -99,6 +121,7 @@
 					redrawPlayer(i,y,player);
 				}
 				else if(map.tiles[i][y].type == 2) {
+					redrawGridSpace(i,y);
 				}
 			}
 		}
